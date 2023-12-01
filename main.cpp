@@ -1,66 +1,73 @@
 #include<iostream>
 #include<cstdlib>
 #include<time.h>
-int getMax(const int* ar, int size){
-    int right = size-1;
-    int left = 0;
-    while (right != left){
-        while (ar[right] <= ar[left] && right != left) {right--;}
-        while (ar[left] <= ar[right] && right != left) {left++;}   
-    }
-    return right;
-}
-
-int getMin(const int* ar, int size){
-    int right = size-1;
-    int left = 0;
-    while (right != left){
-        while (ar[right] >= ar[left] && right != left) {right--;}
-        while (ar[left] >= ar[right] && right != left) {left++;}   
-    }
-    return right;
-} 
-
-void showEl_line(const int* ar, int size, char del = ' ') {
-    for (int i=0; i<size; i++){std::cout << ar[i] << del;}
-    std::cout << '\n';
-}
-
-void showEl_matrix(const int* ar, int size, char del = ' ', int col = 5) {
-	for (int i=0; i<size; i++){
-		std::cout << ar[i] << del;
-		if ((i+1)%col == 0){ std::cout << '\n';}
-	}
-	std::cout << '\n';
-}
-
-
-void swap(int* a, int* b) {
+void swap(int* a, int* b){
+	if (a != b){
 	*a = *a ^ *b;
 	*b = *a ^ *b;
 	*a = *a ^ *b;
-}
-
-void Sortarr(int* ar, int size){
-	for (; size >1; size--){
-		int max = getMax( ar, size);
-		if (size-1 != max){
-			swap(&ar[max], &ar[size-1]);
-		}
 	}
 }
 
+int getMax(int* ar, int size){
+	int right = size-1;
+	int left = 0;
+	while (left != right){
+		while(ar[right] <= ar[left] && left != right){right--;}
+		while(ar[left] <= ar[right] && left != right){left++;}
+	}
+	return right;
+}
+
+int getMin(int* ar, int size){
+        int right = size-1;
+        int left = 0;
+        while (left != right){
+                while(ar[right] >= ar[left] && left != right){right--;}
+                while(ar[left] >= ar[right] && left != right){left++;}
+        }
+        return right;
+}
+
+void showEl_matrix(int* ar, int size, char del = ' ', int col = 10){
+	for (int i = 0; i<size; i++){
+		std::cout << ar[i] << del;
+		if ((i+1)%col == 0 && i+1 != size){std::cout << '\n';}
+	}
+	std::cout << '\n';
+}
+
+
+void sortEl(int* ar, int size){
+	int max;
+	for (int i = size; i>1; i--){
+		max = getMax(ar,i);
+		swap(&ar[max], &ar[i-1]);
+	}
+}
+
+void selectionSort_mod(int* ar, int size){
+	int left = 0;
+	int s  = size-1;
+	int max;
+	int min;
+    for (;s > 1; s-=2, left++){
+		max = getMax(ar+left, s+1);
+		min = getMin(ar+left, s+1);
+		swap(ar+left, ar+min);
+		swap(ar+left+s, ar+max);
+	}  
+}
+
+
 int main(){
 	srand(time(NULL));
-	int ar[100];
-	for (int i = 0; i<100; i++){ ar[i] = rand()/1000000;}
-	std::cout << getMin(ar, 100) << "\n";
-	std::cout << getMax(ar,  100) << "\n";
-	showEl_matrix(ar, 100, ' ');
-	std::cout << '\n';
-    swap(&ar[5], &ar[10]);
-	showEl_matrix(ar, 100, ' ');
-	std::cout << '\n';
-	Sortarr( ar, 100);
-    showEl_matrix(ar, 100, ' ');
-}	
+	int ar[101];
+	for (int i = 0; i<101; i++){
+		ar[i] = rand()/10000000;
+	}
+	showEl_matrix(ar, 101);
+	selectionSort_mod(ar, 101);
+	
+	showEl_matrix(ar, 101);
+}
