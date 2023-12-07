@@ -52,10 +52,10 @@ void selectionSort_mod(int* ar, int size){
 	int max;
 	int min;
     for (;s > 1; s-=2, left++){
-		max = getMax(ar+left, s+1);
-		min = getMin(ar+left, s+1);
-		swap(ar+left, ar+min);
-		swap(ar+left+s, ar+max);
+		max = getMax(ar+left, s+1) + left;
+		min = getMin(ar+left, s+1) + left;
+		swap(&ar[left], &ar[max]);
+		swap(&ar[left+s], &ar[min]);
 	}  
 }
 
