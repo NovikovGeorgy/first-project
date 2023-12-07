@@ -38,12 +38,20 @@ void showEl_matrix(int* ar, int size, char del = ' ', int col = 10){
 }
 
 
-void sortEl(int* ar, int size){
+void sortEl_I(int* ar, int size){
 	int max;
 	for (int i = size; i>1; i--){
 		max = getMax(ar,i);
 		swap(&ar[max], &ar[i-1]);
 	}
+}
+
+void sortEl_D(int* ar, int size){
+     int min;
+      for (int i = size; i>1; i--){
+         min = getMin(ar,i);
+         swap(&ar[min], &ar[i-1]);
+     }
 }
 
 void selectionSort_mod(int* ar, int size){
@@ -67,7 +75,8 @@ int main(){
 		ar[i] = rand()/10000000;
 	}
 	showEl_matrix(ar, 101);
-	selectionSort_mod(ar, 101);
-	
+	sortEl_I(ar, 101);
+	showEl_matrix(ar, 101);
+	sortEl_D(ar, 101);
 	showEl_matrix(ar, 101);
 }
